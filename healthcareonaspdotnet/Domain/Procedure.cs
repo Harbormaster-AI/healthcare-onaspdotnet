@@ -8,8 +8,8 @@ public class Procedure
 
  public virtual long? ProcedureId { get; set; } 
  public virtual string? ProcedureCode { get; set; } 
- public virtual DateTime_? StartDateTime { get; set; } 
- public virtual DateTime_? EndDateTime { get; set; } 
+ public virtual DateTime? StartDateTime { get; set; } 
+ public virtual DateTime? EndDateTime { get; set; } 
 public virtual Encounter? Encounter { get; set; } 
 public virtual Clinician? Performer { get; set; } 
 public virtual ProcedureOrder? ProcedureOrder { get; set; } 

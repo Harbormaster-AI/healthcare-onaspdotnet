@@ -8,7 +8,7 @@ public class SoftwareUpdate
 
  public virtual long? SoftwareupdateId { get; set; } 
  public virtual string? Version { get; set; } 
- public virtual DateTime_? AppliedDate { get; set; } 
+ public virtual DateTime? AppliedDate { get; set; } 
 public virtual MedicalDevice? Device { get; set; } 
  public virtual SoftwareUpdateType? UpdateType { get; set; } 
 

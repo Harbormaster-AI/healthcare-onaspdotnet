@@ -9,7 +9,7 @@ public class ImagingReport
  public virtual long? ImagingreportId { get; set; } 
  public virtual string? ReportNumber { get; set; } 
  public virtual string? Impression { get; set; } 
- public virtual DateTime_? ReportedDate { get; set; } 
+ public virtual DateTime? ReportedDate { get; set; } 
 public virtual ImagingOrder? ImagingOrder { get; set; } 
 public virtual Clinician? Clinician { get; set; } 
 public virtual Encounter? Encounter { get; set; } 

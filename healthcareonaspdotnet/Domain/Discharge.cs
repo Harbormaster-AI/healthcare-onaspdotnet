@@ -7,7 +7,7 @@ public class Discharge
     public Guid Id { get; set; } = Guid.NewGuid();
 
  public virtual long? DischargeId { get; set; } 
- public virtual DateTime_? DischargeDateTime { get; set; } 
+ public virtual DateTime? DischargeDateTime { get; set; } 
 public virtual Encounter? Encounter { get; set; } 
  public virtual DischargeDisposition? Disposition { get; set; } 
 

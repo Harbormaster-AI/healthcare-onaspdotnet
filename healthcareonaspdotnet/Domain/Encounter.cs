@@ -8,8 +8,8 @@ public class Encounter
 
  public virtual long? EncounterId { get; set; } 
  public virtual string? EncounterNumber { get; set; } 
- public virtual DateTime_? StartDateTime { get; set; } 
- public virtual DateTime_? EndDateTime { get; set; } 
+ public virtual DateTime? StartDateTime { get; set; } 
+ public virtual DateTime? EndDateTime { get; set; } 
 public virtual Patient? Patient { get; set; } 
 public virtual Clinician? Clinician { get; set; } 
 public virtual Facility? Facility { get; set; } 

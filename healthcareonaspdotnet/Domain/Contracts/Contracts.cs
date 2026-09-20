@@ -143,7 +143,7 @@ public class PatientResponse : PatientRequest {
 
 public class AppointmentRequest {
     public Guid Id { get; set; } = Guid.NewGuid();
- public virtual DateTime_? AppointmentDate { get; set; } 
+ public virtual DateTime? AppointmentDate { get; set; } 
  public virtual string? Reason { get; set; } 
  public virtual AppointmentStatus? Status { get; set; } 
  public virtual Priority? Priority { get; set; } 
@@ -164,8 +164,8 @@ public class AppointmentResponse : AppointmentRequest {
 public class EncounterRequest {
     public Guid Id { get; set; } = Guid.NewGuid();
  public virtual string? EncounterNumber { get; set; } 
- public virtual DateTime_? StartDateTime { get; set; } 
- public virtual DateTime_? EndDateTime { get; set; } 
+ public virtual DateTime? StartDateTime { get; set; } 
+ public virtual DateTime? EndDateTime { get; set; } 
  public virtual EncounterStatus? Status { get; set; } 
  public virtual EncounterType? EncounterType { get; set; } 
 }
@@ -185,7 +185,7 @@ public class EncounterResponse : EncounterRequest {
 
 public class AdmissionRequest {
     public Guid Id { get; set; } = Guid.NewGuid();
- public virtual DateTime_? AdmitDateTime { get; set; } 
+ public virtual DateTime? AdmitDateTime { get; set; } 
  public virtual string? Bed { get; set; } 
  public virtual AdmissionType? AdmissionType { get; set; } 
 }
@@ -203,7 +203,7 @@ public class AdmissionResponse : AdmissionRequest {
 
 public class DischargeRequest {
     public Guid Id { get; set; } = Guid.NewGuid();
- public virtual DateTime_? DischargeDateTime { get; set; } 
+ public virtual DateTime? DischargeDateTime { get; set; } 
  public virtual DischargeDisposition? Disposition { get; set; } 
 }
 
@@ -296,7 +296,7 @@ public class LaboratoryOrderResponse : LaboratoryOrderRequest {
 public class LabResultRequest {
     public Guid Id { get; set; } = Guid.NewGuid();
  public virtual string? ResultCode { get; set; } 
- public virtual DateTime_? IssuedDate { get; set; } 
+ public virtual DateTime? IssuedDate { get; set; } 
  public virtual ResultStatus? Status { get; set; } 
 }
 
@@ -347,7 +347,7 @@ public class ImagingReportRequest {
     public Guid Id { get; set; } = Guid.NewGuid();
  public virtual string? ReportNumber { get; set; } 
  public virtual string? Impression { get; set; } 
- public virtual DateTime_? ReportedDate { get; set; } 
+ public virtual DateTime? ReportedDate { get; set; } 
  public virtual ResultStatus? Status { get; set; } 
 }
 
@@ -384,8 +384,8 @@ public class ProcedureOrderResponse : ProcedureOrderRequest {
 public class ProcedureRequest {
     public Guid Id { get; set; } = Guid.NewGuid();
  public virtual string? ProcedureCode { get; set; } 
- public virtual DateTime_? StartDateTime { get; set; } 
- public virtual DateTime_? EndDateTime { get; set; } 
+ public virtual DateTime? StartDateTime { get; set; } 
+ public virtual DateTime? EndDateTime { get; set; } 
  public virtual ProcedureStatus? Status { get; set; } 
 }
 
@@ -419,7 +419,7 @@ public class MedicationDispenseRequest {
     public Guid Id { get; set; } = Guid.NewGuid();
  public virtual string? DispenseNumber { get; set; } 
  public virtual decimal? Quantity { get; set; } 
- public virtual DateTime_? WhenPrepared { get; set; } 
+ public virtual DateTime? WhenPrepared { get; set; } 
  public virtual DispenseStatus? Status { get; set; } 
 }
 
@@ -460,7 +460,7 @@ public class ObservationRequest {
  public virtual string? Code { get; set; } 
  public virtual string? Value { get; set; } 
  public virtual string? Unit { get; set; } 
- public virtual DateTime_? EffectiveDateTime { get; set; } 
+ public virtual DateTime? EffectiveDateTime { get; set; } 
  public virtual ObservationInterpretation? Interpretation { get; set; } 
 }
 
@@ -714,7 +714,7 @@ public class MedicalDeviceResponse : MedicalDeviceRequest {
 public class SoftwareUpdateRequest {
     public Guid Id { get; set; } = Guid.NewGuid();
  public virtual string? Version { get; set; } 
- public virtual DateTime_? AppliedDate { get; set; } 
+ public virtual DateTime? AppliedDate { get; set; } 
  public virtual SoftwareUpdateType? UpdateType { get; set; } 
 }
 

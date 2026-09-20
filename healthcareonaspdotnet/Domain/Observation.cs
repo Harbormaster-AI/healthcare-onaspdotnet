@@ -10,7 +10,7 @@ public class Observation
  public virtual string? Code { get; set; } 
  public virtual string? Value { get; set; } 
  public virtual string? Unit { get; set; } 
- public virtual DateTime_? EffectiveDateTime { get; set; } 
+ public virtual DateTime? EffectiveDateTime { get; set; } 
 public virtual Encounter? Encounter { get; set; } 
 public virtual Patient? Patient { get; set; } 
 public virtual MedicalDevice? Device { get; set; } 

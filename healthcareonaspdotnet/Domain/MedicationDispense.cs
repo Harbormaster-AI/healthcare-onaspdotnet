@@ -9,7 +9,7 @@ public class MedicationDispense
  public virtual long? MedicationdispenseId { get; set; } 
  public virtual string? DispenseNumber { get; set; } 
  public virtual decimal? Quantity { get; set; } 
- public virtual DateTime_? WhenPrepared { get; set; } 
+ public virtual DateTime? WhenPrepared { get; set; } 
 public virtual MedicationOrder? MedicationOrder { get; set; } 
 public virtual Pharmacy? Pharmacy { get; set; } 
 public virtual Patient? Patient { get; set; } 
