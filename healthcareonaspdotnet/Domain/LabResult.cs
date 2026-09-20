@@ -8,7 +8,7 @@ public class LabResult
 
  public virtual long? LabresultId { get; set; } 
  public virtual string? ResultCode { get; set; } 
- public virtual DateTime? IssuedDate { get; set; } 
+ public virtual DateTime_? IssuedDate { get; set; } 
 public virtual LaboratoryOrder? LaboratoryOrder { get; set; } 
 public virtual ICollection<Observation> Observations { get; set; } = new List<Observation>();
 public virtual Laboratory? Laboratory { get; set; } 

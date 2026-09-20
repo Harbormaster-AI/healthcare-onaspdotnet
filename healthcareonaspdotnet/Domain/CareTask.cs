@@ -12,7 +12,7 @@ public class CareTask
 public virtual CarePlan? CarePlan { get; set; } 
 public virtual Clinician? AssignedTo { get; set; } 
 public virtual Encounter? Encounter { get; set; } 
- public virtual TaskStatus? Status { get; set; } 
+ public virtual TaskStatus_? Status { get; set; } 
  public virtual Priority? Priority { get; set; } 
 
     public static CareTask FromRequest(CareTaskRequest request) {

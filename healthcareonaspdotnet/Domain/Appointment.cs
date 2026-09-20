@@ -7,7 +7,7 @@ public class Appointment
     public Guid Id { get; set; } = Guid.NewGuid();
 
  public virtual long? AppointmentId { get; set; } 
- public virtual DateTime? AppointmentDate { get; set; } 
+ public virtual DateTime_? AppointmentDate { get; set; } 
  public virtual string? Reason { get; set; } 
 public virtual Patient? Patient { get; set; } 
 public virtual Clinician? Clinician { get; set; } 
