@@ -1,0 +1,5 @@
+@healthcareonaspdotnet.Api_HostAddress = http://localhost:5076
+
+GET {{healthcareonaspdotnet.Api_HostAddress}}/
+Accept: application/json
+

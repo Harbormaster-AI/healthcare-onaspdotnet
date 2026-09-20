@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="healthcareonaspdotnet/healthcareonaspdotnet.Api.csproj" />
+  <Project Path="healthcareonaspdotnet/Tests/healthcareonaspdotnet.Tests.csproj" />
+</Solution>
