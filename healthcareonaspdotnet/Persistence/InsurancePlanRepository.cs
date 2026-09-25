@@ -1,4 +1,7 @@
+
+using healthcareonaspdotnet.Contracts;
 using healthcareonaspdotnet.Domain;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace healthcareonaspdotnet.Persistence;
@@ -44,4 +47,41 @@ public class InsurancePlanRepository : IInsurancePlanRepository
         _db.InsurancePlans.Remove(insurancePlan);
         await _db.SaveChangesAsync(cancellationToken);
     }
+
+
+    public async Task AddToCoveragesAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.Coverages
+            .Where(coverage =>
+                request.ChildIds.Contains(coverage.Id))
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    coverage =>
+                        EF.Property<Guid?>(
+                            coverage,
+                            "InventoryItem_Id"),
+                    request.ParentId));
+    }
+
+    public async Task RemoveFromCoveragesAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.Coverages
+            .Where(coverage =>
+                request.ChildIds.Contains(coverage.Id) &&
+                EF.Property<Guid?>(
+                    coverage,
+                    "InventoryItem_Id") == request.ParentId)
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    coverage =>
+                        EF.Property<Guid?>(
+                            coverage,
+                            "InventoryItem_Id"),
+                    (Guid?)null));
+    }
+
 }

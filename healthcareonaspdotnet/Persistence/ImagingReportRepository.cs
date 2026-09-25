@@ -1,4 +1,7 @@
+
+using healthcareonaspdotnet.Contracts;
 using healthcareonaspdotnet.Domain;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace healthcareonaspdotnet.Persistence;
@@ -50,4 +53,5 @@ public class ImagingReportRepository : IImagingReportRepository
         _db.ImagingReports.Remove(imagingReport);
         await _db.SaveChangesAsync(cancellationToken);
     }
+
 }

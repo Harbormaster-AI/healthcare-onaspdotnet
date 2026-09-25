@@ -1,4 +1,7 @@
+
+using healthcareonaspdotnet.Contracts;
 using healthcareonaspdotnet.Domain;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace healthcareonaspdotnet.Persistence;
@@ -46,4 +49,77 @@ public class CoverageRepository : ICoverageRepository
         _db.Coverages.Remove(coverage);
         await _db.SaveChangesAsync(cancellationToken);
     }
+
+
+    public async Task AddToClaimsAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.Claims
+            .Where(claim =>
+                request.ChildIds.Contains(claim.Id))
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    claim =>
+                        EF.Property<Guid?>(
+                            claim,
+                            "InventoryItem_Id"),
+                    request.ParentId));
+    }
+
+    public async Task RemoveFromClaimsAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.Claims
+            .Where(claim =>
+                request.ChildIds.Contains(claim.Id) &&
+                EF.Property<Guid?>(
+                    claim,
+                    "InventoryItem_Id") == request.ParentId)
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    claim =>
+                        EF.Property<Guid?>(
+                            claim,
+                            "InventoryItem_Id"),
+                    (Guid?)null));
+    }
+
+
+    public async Task AddToAuthorizationsAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.Authorizations
+            .Where(authorization =>
+                request.ChildIds.Contains(authorization.Id))
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    authorization =>
+                        EF.Property<Guid?>(
+                            authorization,
+                            "InventoryItem_Id"),
+                    request.ParentId));
+    }
+
+    public async Task RemoveFromAuthorizationsAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.Authorizations
+            .Where(authorization =>
+                request.ChildIds.Contains(authorization.Id) &&
+                EF.Property<Guid?>(
+                    authorization,
+                    "InventoryItem_Id") == request.ParentId)
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    authorization =>
+                        EF.Property<Guid?>(
+                            authorization,
+                            "InventoryItem_Id"),
+                    (Guid?)null));
+    }
+
 }

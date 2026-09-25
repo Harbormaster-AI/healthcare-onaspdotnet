@@ -1,6 +1,8 @@
+
 using healthcareonaspdotnet.Domain;
 using healthcareonaspdotnet.Persistence;
 using healthcareonaspdotnet.Contracts;
+using healthcareonaspdotnet.Telemetry;
 
 namespace healthcareonaspdotnet.Service;
 
@@ -11,7 +13,6 @@ public interface IInsurancePayerService {
     Task<InsurancePayer?> Get(IdentifierRequest identifier, CancellationToken cancellationToken);
     Task<IReadOnlyList<InsurancePayer>> GetAll(CancellationToken cancellationToken);
     Task<bool> Delete(IdentifierRequest identifier, CancellationToken cancellationToken);
-
     // ------------------------------
     // Single Associations
     // -------------------------------
@@ -25,26 +26,38 @@ public interface IInsurancePayerService {
 
 public class InsurancePayerService : IInsurancePayerService
 {
+    private readonly ApplicationTelemetry _telemetry;
     private readonly IInsurancePayerRepository _repository;
     private readonly ILogger<InsurancePayerService> _logger;
+    private readonly IServiceResolver _serviceResolver;
+
 
     public InsurancePayerService(
-        IInsurancePayerRepository repository, ILogger<InsurancePayerService> logger )
+        ApplicationTelemetry telemetry,
+        IInsurancePayerRepository repository,
+        ILogger<InsurancePayerService> logger,
+        IServiceResolver serviceResolver)
     {
+        _telemetry = telemetry;
         _repository = repository;
         _logger = logger;
+        _serviceResolver = serviceResolver;
     }
-
 
     public async Task Create(InsurancePayer model, CancellationToken cancellationToken)
     {
         try
         {
-            await _repository.AddAsync(model, cancellationToken);
+            await _telemetry.Execute(
+                "InsurancePayer",
+                "CreateInsurancePayer",
+                () => _repository.AddAsync(model, cancellationToken));
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Unexpected Error: {ex.Message}");
+            _logger.LogError(
+                    ex,
+                    "Unexpected error while creating Transaction.");
         }
     }
 
@@ -60,11 +73,16 @@ public class InsurancePayerService : IInsurancePayerService
             existing.Website = model.Website;
             existing.PayerType = model.PayerType;
 
-            await _repository.UpdateAsync(existing, cancellationToken);
+            await _telemetry.Execute(
+                "InsurancePayer",
+                "UpdateInsurancePayer",
+                () => _repository.UpdateAsync(existing, cancellationToken));
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Unexpected Error: {ex.Message}");
+            _logger.LogError(
+                    ex,
+                    "Unexpected error while creating Transaction.");
             return false;
         }
         return true;
@@ -86,29 +104,87 @@ public class InsurancePayerService : IInsurancePayerService
 
         try
         {
-            await _repository.DeleteAsync(existing, cancellationToken);
+            await _telemetry.Execute(
+                "InsurancePayer",
+                "UpdateInsurancePayer",
+                () => _repository.DeleteAsync(existing, cancellationToken));
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Unexpected Error: {ex.Message}");
+            _logger.LogError(
+                    ex,
+                    "Unexpected error while creating Transaction.");
             return false;
         }
         return true;
-
     }
 
 
     public async Task<bool> AddToPlans(MultipleAssociationRequest request, CancellationToken cancellationToken) {
+        try {
+            await _telemetry.Execute(
+                "InsurancePayer",
+                "AddToPlans",
+                () => _repository.AddToPlansAsync(request, cancellationToken));
+        }
+        catch (Exception ex)
+        {
+           _logger.LogError(
+                   ex,
+                   "Unexpected error while creating Transaction.");
+            return false;
+        }
         return true;
     }
+
     public async Task<bool> RemoveFromPlans(MultipleAssociationRequest request, CancellationToken cancellationToken) {
+        try {
+            await _telemetry.Execute(
+                "InsurancePayer",
+                "RemoveFromPlans",
+                () => _repository.RemoveFromPlansAsync(request, cancellationToken));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(
+                    ex,
+                    "Unexpected error while creating Transaction.");
+            return false;
+        }
         return true;
     }
 
     public async Task<bool> AddToClaims(MultipleAssociationRequest request, CancellationToken cancellationToken) {
+        try {
+            await _telemetry.Execute(
+                "InsurancePayer",
+                "AddToClaims",
+                () => _repository.AddToClaimsAsync(request, cancellationToken));
+        }
+        catch (Exception ex)
+        {
+           _logger.LogError(
+                   ex,
+                   "Unexpected error while creating Transaction.");
+            return false;
+        }
         return true;
     }
+
     public async Task<bool> RemoveFromClaims(MultipleAssociationRequest request, CancellationToken cancellationToken) {
+        try {
+            await _telemetry.Execute(
+                "InsurancePayer",
+                "RemoveFromClaims",
+                () => _repository.RemoveFromClaimsAsync(request, cancellationToken));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(
+                    ex,
+                    "Unexpected error while creating Transaction.");
+            return false;
+        }
         return true;
     }
 

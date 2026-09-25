@@ -1,4 +1,7 @@
+
+using healthcareonaspdotnet.Contracts;
 using healthcareonaspdotnet.Domain;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace healthcareonaspdotnet.Persistence;
@@ -46,4 +49,41 @@ public class LaboratoryOrderRepository : ILaboratoryOrderRepository
         _db.LaboratoryOrders.Remove(laboratoryOrder);
         await _db.SaveChangesAsync(cancellationToken);
     }
+
+
+    public async Task AddToResultsAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.LabResults
+            .Where(labResult =>
+                request.ChildIds.Contains(labResult.Id))
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    labResult =>
+                        EF.Property<Guid?>(
+                            labResult,
+                            "InventoryItem_Id"),
+                    request.ParentId));
+    }
+
+    public async Task RemoveFromResultsAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.LabResults
+            .Where(labResult =>
+                request.ChildIds.Contains(labResult.Id) &&
+                EF.Property<Guid?>(
+                    labResult,
+                    "InventoryItem_Id") == request.ParentId)
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    labResult =>
+                        EF.Property<Guid?>(
+                            labResult,
+                            "InventoryItem_Id"),
+                    (Guid?)null));
+    }
+
 }

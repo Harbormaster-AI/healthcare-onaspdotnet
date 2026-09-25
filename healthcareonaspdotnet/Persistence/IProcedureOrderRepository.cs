@@ -1,4 +1,5 @@
 using healthcareonaspdotnet.Domain;
+using healthcareonaspdotnet.Contracts;
 
 namespace healthcareonaspdotnet.Persistence;
 
@@ -9,4 +10,6 @@ public interface IProcedureOrderRepository
     Task AddAsync(ProcedureOrder procedureOrder, CancellationToken cancellationToken);
     Task UpdateAsync(ProcedureOrder procedureOrder, CancellationToken cancellationToken);
     Task DeleteAsync(ProcedureOrder procedureOrder, CancellationToken cancellationToken);
+
+
 }

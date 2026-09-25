@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace healthcareonaspdotnet.Domain;
 
+
     [ComplexType]
     public record MRN(
     string Value

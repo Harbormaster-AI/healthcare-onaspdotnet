@@ -1,4 +1,7 @@
+
+using healthcareonaspdotnet.Contracts;
 using healthcareonaspdotnet.Domain;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace healthcareonaspdotnet.Persistence;
@@ -44,4 +47,5 @@ public class DischargeRepository : IDischargeRepository
         _db.Discharges.Remove(discharge);
         await _db.SaveChangesAsync(cancellationToken);
     }
+
 }

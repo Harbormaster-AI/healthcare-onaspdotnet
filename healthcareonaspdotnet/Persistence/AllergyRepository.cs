@@ -1,4 +1,7 @@
+
+using healthcareonaspdotnet.Contracts;
 using healthcareonaspdotnet.Domain;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace healthcareonaspdotnet.Persistence;
@@ -44,4 +47,5 @@ public class AllergyRepository : IAllergyRepository
         _db.Allergys.Remove(allergy);
         await _db.SaveChangesAsync(cancellationToken);
     }
+
 }

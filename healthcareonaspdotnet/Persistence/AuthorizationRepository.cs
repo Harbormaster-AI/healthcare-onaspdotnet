@@ -1,4 +1,7 @@
+
+using healthcareonaspdotnet.Contracts;
 using healthcareonaspdotnet.Domain;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace healthcareonaspdotnet.Persistence;
@@ -46,4 +49,5 @@ public class AuthorizationRepository : IAuthorizationRepository
         _db.Authorizations.Remove(authorization);
         await _db.SaveChangesAsync(cancellationToken);
     }
+
 }

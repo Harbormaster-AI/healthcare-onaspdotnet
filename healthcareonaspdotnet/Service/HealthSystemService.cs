@@ -1,6 +1,8 @@
+
 using healthcareonaspdotnet.Domain;
 using healthcareonaspdotnet.Persistence;
 using healthcareonaspdotnet.Contracts;
+using healthcareonaspdotnet.Telemetry;
 
 namespace healthcareonaspdotnet.Service;
 
@@ -11,7 +13,6 @@ public interface IHealthSystemService {
     Task<HealthSystem?> Get(IdentifierRequest identifier, CancellationToken cancellationToken);
     Task<IReadOnlyList<HealthSystem>> GetAll(CancellationToken cancellationToken);
     Task<bool> Delete(IdentifierRequest identifier, CancellationToken cancellationToken);
-
     // ------------------------------
     // Single Associations
     // -------------------------------
@@ -25,26 +26,38 @@ public interface IHealthSystemService {
 
 public class HealthSystemService : IHealthSystemService
 {
+    private readonly ApplicationTelemetry _telemetry;
     private readonly IHealthSystemRepository _repository;
     private readonly ILogger<HealthSystemService> _logger;
+    private readonly IServiceResolver _serviceResolver;
+
 
     public HealthSystemService(
-        IHealthSystemRepository repository, ILogger<HealthSystemService> logger )
+        ApplicationTelemetry telemetry,
+        IHealthSystemRepository repository,
+        ILogger<HealthSystemService> logger,
+        IServiceResolver serviceResolver)
     {
+        _telemetry = telemetry;
         _repository = repository;
         _logger = logger;
+        _serviceResolver = serviceResolver;
     }
-
 
     public async Task Create(HealthSystem model, CancellationToken cancellationToken)
     {
         try
         {
-            await _repository.AddAsync(model, cancellationToken);
+            await _telemetry.Execute(
+                "HealthSystem",
+                "CreateHealthSystem",
+                () => _repository.AddAsync(model, cancellationToken));
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Unexpected Error: {ex.Message}");
+            _logger.LogError(
+                    ex,
+                    "Unexpected error while creating Transaction.");
         }
     }
 
@@ -61,11 +74,16 @@ public class HealthSystemService : IHealthSystemService
             existing.HeadquartersCountry = model.HeadquartersCountry;
             existing.Website = model.Website;
 
-            await _repository.UpdateAsync(existing, cancellationToken);
+            await _telemetry.Execute(
+                "HealthSystem",
+                "UpdateHealthSystem",
+                () => _repository.UpdateAsync(existing, cancellationToken));
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Unexpected Error: {ex.Message}");
+            _logger.LogError(
+                    ex,
+                    "Unexpected error while creating Transaction.");
             return false;
         }
         return true;
@@ -87,29 +105,87 @@ public class HealthSystemService : IHealthSystemService
 
         try
         {
-            await _repository.DeleteAsync(existing, cancellationToken);
+            await _telemetry.Execute(
+                "HealthSystem",
+                "UpdateHealthSystem",
+                () => _repository.DeleteAsync(existing, cancellationToken));
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Unexpected Error: {ex.Message}");
+            _logger.LogError(
+                    ex,
+                    "Unexpected error while creating Transaction.");
             return false;
         }
         return true;
-
     }
 
 
     public async Task<bool> AddToFacilities(MultipleAssociationRequest request, CancellationToken cancellationToken) {
+        try {
+            await _telemetry.Execute(
+                "HealthSystem",
+                "AddToFacilities",
+                () => _repository.AddToFacilitiesAsync(request, cancellationToken));
+        }
+        catch (Exception ex)
+        {
+           _logger.LogError(
+                   ex,
+                   "Unexpected error while creating Transaction.");
+            return false;
+        }
         return true;
     }
+
     public async Task<bool> RemoveFromFacilities(MultipleAssociationRequest request, CancellationToken cancellationToken) {
+        try {
+            await _telemetry.Execute(
+                "HealthSystem",
+                "RemoveFromFacilities",
+                () => _repository.RemoveFromFacilitiesAsync(request, cancellationToken));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(
+                    ex,
+                    "Unexpected error while creating Transaction.");
+            return false;
+        }
         return true;
     }
 
     public async Task<bool> AddToSuppliers(MultipleAssociationRequest request, CancellationToken cancellationToken) {
+        try {
+            await _telemetry.Execute(
+                "HealthSystem",
+                "AddToSuppliers",
+                () => _repository.AddToSuppliersAsync(request, cancellationToken));
+        }
+        catch (Exception ex)
+        {
+           _logger.LogError(
+                   ex,
+                   "Unexpected error while creating Transaction.");
+            return false;
+        }
         return true;
     }
+
     public async Task<bool> RemoveFromSuppliers(MultipleAssociationRequest request, CancellationToken cancellationToken) {
+        try {
+            await _telemetry.Execute(
+                "HealthSystem",
+                "RemoveFromSuppliers",
+                () => _repository.RemoveFromSuppliersAsync(request, cancellationToken));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(
+                    ex,
+                    "Unexpected error while creating Transaction.");
+            return false;
+        }
         return true;
     }
 

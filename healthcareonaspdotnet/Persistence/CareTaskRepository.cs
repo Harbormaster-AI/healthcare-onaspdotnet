@@ -1,4 +1,7 @@
+
+using healthcareonaspdotnet.Contracts;
 using healthcareonaspdotnet.Domain;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace healthcareonaspdotnet.Persistence;
@@ -48,4 +51,5 @@ public class CareTaskRepository : ICareTaskRepository
         _db.CareTasks.Remove(careTask);
         await _db.SaveChangesAsync(cancellationToken);
     }
+
 }

@@ -1,4 +1,7 @@
+
+using healthcareonaspdotnet.Contracts;
 using healthcareonaspdotnet.Domain;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace healthcareonaspdotnet.Persistence;
@@ -44,4 +47,77 @@ public class PharmacyRepository : IPharmacyRepository
         _db.Pharmacys.Remove(pharmacy);
         await _db.SaveChangesAsync(cancellationToken);
     }
+
+
+    public async Task AddToMedicationDispensesAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.MedicationDispenses
+            .Where(medicationDispense =>
+                request.ChildIds.Contains(medicationDispense.Id))
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    medicationDispense =>
+                        EF.Property<Guid?>(
+                            medicationDispense,
+                            "InventoryItem_Id"),
+                    request.ParentId));
+    }
+
+    public async Task RemoveFromMedicationDispensesAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.MedicationDispenses
+            .Where(medicationDispense =>
+                request.ChildIds.Contains(medicationDispense.Id) &&
+                EF.Property<Guid?>(
+                    medicationDispense,
+                    "InventoryItem_Id") == request.ParentId)
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    medicationDispense =>
+                        EF.Property<Guid?>(
+                            medicationDispense,
+                            "InventoryItem_Id"),
+                    (Guid?)null));
+    }
+
+
+    public async Task AddToMedicationOrdersAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.MedicationOrders
+            .Where(medicationOrder =>
+                request.ChildIds.Contains(medicationOrder.Id))
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    medicationOrder =>
+                        EF.Property<Guid?>(
+                            medicationOrder,
+                            "InventoryItem_Id"),
+                    request.ParentId));
+    }
+
+    public async Task RemoveFromMedicationOrdersAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.MedicationOrders
+            .Where(medicationOrder =>
+                request.ChildIds.Contains(medicationOrder.Id) &&
+                EF.Property<Guid?>(
+                    medicationOrder,
+                    "InventoryItem_Id") == request.ParentId)
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    medicationOrder =>
+                        EF.Property<Guid?>(
+                            medicationOrder,
+                            "InventoryItem_Id"),
+                    (Guid?)null));
+    }
+
 }

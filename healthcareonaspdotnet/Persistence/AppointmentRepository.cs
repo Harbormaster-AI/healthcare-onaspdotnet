@@ -1,4 +1,7 @@
+
+using healthcareonaspdotnet.Contracts;
 using healthcareonaspdotnet.Domain;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace healthcareonaspdotnet.Persistence;
@@ -50,4 +53,5 @@ public class AppointmentRepository : IAppointmentRepository
         _db.Appointments.Remove(appointment);
         await _db.SaveChangesAsync(cancellationToken);
     }
+
 }

@@ -1,4 +1,5 @@
 using healthcareonaspdotnet.Domain;
+using healthcareonaspdotnet.Contracts;
 
 namespace healthcareonaspdotnet.Persistence;
 
@@ -9,4 +10,6 @@ public interface IConditionRepository
     Task AddAsync(Condition condition, CancellationToken cancellationToken);
     Task UpdateAsync(Condition condition, CancellationToken cancellationToken);
     Task DeleteAsync(Condition condition, CancellationToken cancellationToken);
+
+
 }

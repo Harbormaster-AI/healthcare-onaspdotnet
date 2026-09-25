@@ -1,4 +1,7 @@
+
+using healthcareonaspdotnet.Contracts;
 using healthcareonaspdotnet.Domain;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace healthcareonaspdotnet.Persistence;
@@ -44,4 +47,77 @@ public class LaboratoryRepository : ILaboratoryRepository
         _db.Laboratorys.Remove(laboratory);
         await _db.SaveChangesAsync(cancellationToken);
     }
+
+
+    public async Task AddToLaboratoryOrdersAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.LaboratoryOrders
+            .Where(laboratoryOrder =>
+                request.ChildIds.Contains(laboratoryOrder.Id))
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    laboratoryOrder =>
+                        EF.Property<Guid?>(
+                            laboratoryOrder,
+                            "InventoryItem_Id"),
+                    request.ParentId));
+    }
+
+    public async Task RemoveFromLaboratoryOrdersAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.LaboratoryOrders
+            .Where(laboratoryOrder =>
+                request.ChildIds.Contains(laboratoryOrder.Id) &&
+                EF.Property<Guid?>(
+                    laboratoryOrder,
+                    "InventoryItem_Id") == request.ParentId)
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    laboratoryOrder =>
+                        EF.Property<Guid?>(
+                            laboratoryOrder,
+                            "InventoryItem_Id"),
+                    (Guid?)null));
+    }
+
+
+    public async Task AddToLabResultsAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.LabResults
+            .Where(labResult =>
+                request.ChildIds.Contains(labResult.Id))
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    labResult =>
+                        EF.Property<Guid?>(
+                            labResult,
+                            "InventoryItem_Id"),
+                    request.ParentId));
+    }
+
+    public async Task RemoveFromLabResultsAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.LabResults
+            .Where(labResult =>
+                request.ChildIds.Contains(labResult.Id) &&
+                EF.Property<Guid?>(
+                    labResult,
+                    "InventoryItem_Id") == request.ParentId)
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    labResult =>
+                        EF.Property<Guid?>(
+                            labResult,
+                            "InventoryItem_Id"),
+                    (Guid?)null));
+    }
+
 }

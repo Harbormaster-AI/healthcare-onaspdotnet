@@ -1,4 +1,5 @@
 using healthcareonaspdotnet.Domain;
+using healthcareonaspdotnet.Contracts;
 
 namespace healthcareonaspdotnet.Persistence;
 
@@ -9,4 +10,8 @@ public interface IInvoiceRepository
     Task AddAsync(Invoice invoice, CancellationToken cancellationToken);
     Task UpdateAsync(Invoice invoice, CancellationToken cancellationToken);
     Task DeleteAsync(Invoice invoice, CancellationToken cancellationToken);
+
+    Task AddToPaymentsAsync( MultipleAssociationRequest request, CancellationToken cancellationToken);
+    Task RemoveFromPaymentsAsync( MultipleAssociationRequest request, CancellationToken cancellationToken);
+
 }

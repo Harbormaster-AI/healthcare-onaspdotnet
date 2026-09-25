@@ -1,4 +1,7 @@
+
+using healthcareonaspdotnet.Contracts;
 using healthcareonaspdotnet.Domain;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace healthcareonaspdotnet.Persistence;
@@ -46,4 +49,5 @@ public class AdmissionRepository : IAdmissionRepository
         _db.Admissions.Remove(admission);
         await _db.SaveChangesAsync(cancellationToken);
     }
+
 }

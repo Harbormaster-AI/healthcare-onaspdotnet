@@ -1,4 +1,5 @@
 using healthcareonaspdotnet.Domain;
+using healthcareonaspdotnet.Contracts;
 
 namespace healthcareonaspdotnet.Persistence;
 
@@ -9,4 +10,6 @@ public interface ISoftwareUpdateRepository
     Task AddAsync(SoftwareUpdate softwareUpdate, CancellationToken cancellationToken);
     Task UpdateAsync(SoftwareUpdate softwareUpdate, CancellationToken cancellationToken);
     Task DeleteAsync(SoftwareUpdate softwareUpdate, CancellationToken cancellationToken);
+
+
 }

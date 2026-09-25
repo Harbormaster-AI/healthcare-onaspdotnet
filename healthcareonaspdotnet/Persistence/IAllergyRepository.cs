@@ -1,4 +1,5 @@
 using healthcareonaspdotnet.Domain;
+using healthcareonaspdotnet.Contracts;
 
 namespace healthcareonaspdotnet.Persistence;
 
@@ -9,4 +10,6 @@ public interface IAllergyRepository
     Task AddAsync(Allergy allergy, CancellationToken cancellationToken);
     Task UpdateAsync(Allergy allergy, CancellationToken cancellationToken);
     Task DeleteAsync(Allergy allergy, CancellationToken cancellationToken);
+
+
 }

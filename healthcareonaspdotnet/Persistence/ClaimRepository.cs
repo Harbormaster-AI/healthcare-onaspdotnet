@@ -1,4 +1,7 @@
+
+using healthcareonaspdotnet.Contracts;
 using healthcareonaspdotnet.Domain;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace healthcareonaspdotnet.Persistence;
@@ -50,4 +53,41 @@ public class ClaimRepository : IClaimRepository
         _db.Claims.Remove(claim);
         await _db.SaveChangesAsync(cancellationToken);
     }
+
+
+    public async Task AddToInvoicesAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.Invoices
+            .Where(invoice =>
+                request.ChildIds.Contains(invoice.Id))
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    invoice =>
+                        EF.Property<Guid?>(
+                            invoice,
+                            "InventoryItem_Id"),
+                    request.ParentId));
+    }
+
+    public async Task RemoveFromInvoicesAsync(
+        MultipleAssociationRequest request,
+        CancellationToken cancellationToken)
+    {
+        await _db.Invoices
+            .Where(invoice =>
+                request.ChildIds.Contains(invoice.Id) &&
+                EF.Property<Guid?>(
+                    invoice,
+                    "InventoryItem_Id") == request.ParentId)
+            .ExecuteUpdateAsync(setters =>
+                setters.SetProperty(
+                    invoice =>
+                        EF.Property<Guid?>(
+                            invoice,
+                            "InventoryItem_Id"),
+                    (Guid?)null));
+    }
+
 }

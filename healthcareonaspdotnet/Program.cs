@@ -1,7 +1,8 @@
 using healthcareonaspdotnet.Api;
 using healthcareonaspdotnet.Persistence;
 using healthcareonaspdotnet.Service;
-
+using healthcareonaspdotnet.Telemetry;
+using OpenTelemetry.Metrics;
 using Microsoft.EntityFrameworkCore;
 using Oracle.EntityFrameworkCore;
 
@@ -11,7 +12,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddOpenApi();
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ApplicationDbContext>();
-
 
 var dbEngineEnvironment = builder.Configuration["DB_TYPE"];
 
@@ -113,87 +113,104 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     // etc.
 });
 
-builder.Services.AddScoped<IHealthSystemRepository, HealthSystemRepository>();
-builder.Services.AddScoped<IFacilityRepository, FacilityRepository>();
-builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-builder.Services.AddScoped<ICareTeamRepository, CareTeamRepository>();
-builder.Services.AddScoped<IClinicianRepository, ClinicianRepository>();
-builder.Services.AddScoped<IPatientRepository, PatientRepository>();
-builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
-builder.Services.AddScoped<IEncounterRepository, EncounterRepository>();
-builder.Services.AddScoped<IAdmissionRepository, AdmissionRepository>();
-builder.Services.AddScoped<IDischargeRepository, DischargeRepository>();
-builder.Services.AddScoped<IClinicalOrderRepository, ClinicalOrderRepository>();
-builder.Services.AddScoped<IMedicationOrderRepository, MedicationOrderRepository>();
-builder.Services.AddScoped<ILaboratoryRepository, LaboratoryRepository>();
-builder.Services.AddScoped<ILaboratoryOrderRepository, LaboratoryOrderRepository>();
-builder.Services.AddScoped<ILabResultRepository, LabResultRepository>();
-builder.Services.AddScoped<IImagingCenterRepository, ImagingCenterRepository>();
-builder.Services.AddScoped<IImagingOrderRepository, ImagingOrderRepository>();
-builder.Services.AddScoped<IImagingReportRepository, ImagingReportRepository>();
-builder.Services.AddScoped<IProcedureOrderRepository, ProcedureOrderRepository>();
-builder.Services.AddScoped<IProcedureRepository, ProcedureRepository>();
-builder.Services.AddScoped<IPharmacyRepository, PharmacyRepository>();
-builder.Services.AddScoped<IMedicationDispenseRepository, MedicationDispenseRepository>();
-builder.Services.AddScoped<IDiagnosisRepository, DiagnosisRepository>();
-builder.Services.AddScoped<IObservationRepository, ObservationRepository>();
-builder.Services.AddScoped<ICarePlanRepository, CarePlanRepository>();
-builder.Services.AddScoped<ICareTaskRepository, CareTaskRepository>();
-builder.Services.AddScoped<IAllergyRepository, AllergyRepository>();
-builder.Services.AddScoped<IConditionRepository, ConditionRepository>();
-builder.Services.AddScoped<IInsurancePayerRepository, InsurancePayerRepository>();
-builder.Services.AddScoped<IInsurancePlanRepository, InsurancePlanRepository>();
-builder.Services.AddScoped<ICoverageRepository, CoverageRepository>();
-builder.Services.AddScoped<IClaimRepository, ClaimRepository>();
-builder.Services.AddScoped<IAuthorizationRepository, AuthorizationRepository>();
-builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
-builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
-builder.Services.AddScoped<IMedicalDeviceRepository, MedicalDeviceRepository>();
-builder.Services.AddScoped<ISoftwareUpdateRepository, SoftwareUpdateRepository>();
-builder.Services.AddScoped<IMedicalSupplierRepository, MedicalSupplierRepository>();
-builder.Services.AddScoped<IInventoryItemRepository, InventoryItemRepository>();
+    builder.Services.AddScoped<IHealthSystemRepository, HealthSystemRepository>();
+    builder.Services.AddScoped<IFacilityRepository, FacilityRepository>();
+    builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+    builder.Services.AddScoped<ICareTeamRepository, CareTeamRepository>();
+    builder.Services.AddScoped<IClinicianRepository, ClinicianRepository>();
+    builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+    builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+    builder.Services.AddScoped<IEncounterRepository, EncounterRepository>();
+    builder.Services.AddScoped<IAdmissionRepository, AdmissionRepository>();
+    builder.Services.AddScoped<IDischargeRepository, DischargeRepository>();
+    builder.Services.AddScoped<IClinicalOrderRepository, ClinicalOrderRepository>();
+    builder.Services.AddScoped<IMedicationOrderRepository, MedicationOrderRepository>();
+    builder.Services.AddScoped<ILaboratoryRepository, LaboratoryRepository>();
+    builder.Services.AddScoped<ILaboratoryOrderRepository, LaboratoryOrderRepository>();
+    builder.Services.AddScoped<ILabResultRepository, LabResultRepository>();
+    builder.Services.AddScoped<IImagingCenterRepository, ImagingCenterRepository>();
+    builder.Services.AddScoped<IImagingOrderRepository, ImagingOrderRepository>();
+    builder.Services.AddScoped<IImagingReportRepository, ImagingReportRepository>();
+    builder.Services.AddScoped<IProcedureOrderRepository, ProcedureOrderRepository>();
+    builder.Services.AddScoped<IProcedureRepository, ProcedureRepository>();
+    builder.Services.AddScoped<IPharmacyRepository, PharmacyRepository>();
+    builder.Services.AddScoped<IMedicationDispenseRepository, MedicationDispenseRepository>();
+    builder.Services.AddScoped<IDiagnosisRepository, DiagnosisRepository>();
+    builder.Services.AddScoped<IObservationRepository, ObservationRepository>();
+    builder.Services.AddScoped<ICarePlanRepository, CarePlanRepository>();
+    builder.Services.AddScoped<ICareTaskRepository, CareTaskRepository>();
+    builder.Services.AddScoped<IAllergyRepository, AllergyRepository>();
+    builder.Services.AddScoped<IConditionRepository, ConditionRepository>();
+    builder.Services.AddScoped<IInsurancePayerRepository, InsurancePayerRepository>();
+    builder.Services.AddScoped<IInsurancePlanRepository, InsurancePlanRepository>();
+    builder.Services.AddScoped<ICoverageRepository, CoverageRepository>();
+    builder.Services.AddScoped<IClaimRepository, ClaimRepository>();
+    builder.Services.AddScoped<IAuthorizationRepository, AuthorizationRepository>();
+    builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+    builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+    builder.Services.AddScoped<IMedicalDeviceRepository, MedicalDeviceRepository>();
+    builder.Services.AddScoped<ISoftwareUpdateRepository, SoftwareUpdateRepository>();
+    builder.Services.AddScoped<IMedicalSupplierRepository, MedicalSupplierRepository>();
+    builder.Services.AddScoped<IInventoryItemRepository, InventoryItemRepository>();
 
-builder.Services.AddScoped<IHealthSystemService, HealthSystemService>();
-builder.Services.AddScoped<IFacilityService, FacilityService>();
-builder.Services.AddScoped<IDepartmentService, DepartmentService>();
-builder.Services.AddScoped<ICareTeamService, CareTeamService>();
-builder.Services.AddScoped<IClinicianService, ClinicianService>();
-builder.Services.AddScoped<IPatientService, PatientService>();
-builder.Services.AddScoped<IAppointmentService, AppointmentService>();
-builder.Services.AddScoped<IEncounterService, EncounterService>();
-builder.Services.AddScoped<IAdmissionService, AdmissionService>();
-builder.Services.AddScoped<IDischargeService, DischargeService>();
-builder.Services.AddScoped<IClinicalOrderService, ClinicalOrderService>();
-builder.Services.AddScoped<IMedicationOrderService, MedicationOrderService>();
-builder.Services.AddScoped<ILaboratoryService, LaboratoryService>();
-builder.Services.AddScoped<ILaboratoryOrderService, LaboratoryOrderService>();
-builder.Services.AddScoped<ILabResultService, LabResultService>();
-builder.Services.AddScoped<IImagingCenterService, ImagingCenterService>();
-builder.Services.AddScoped<IImagingOrderService, ImagingOrderService>();
-builder.Services.AddScoped<IImagingReportService, ImagingReportService>();
-builder.Services.AddScoped<IProcedureOrderService, ProcedureOrderService>();
-builder.Services.AddScoped<IProcedureService, ProcedureService>();
-builder.Services.AddScoped<IPharmacyService, PharmacyService>();
-builder.Services.AddScoped<IMedicationDispenseService, MedicationDispenseService>();
-builder.Services.AddScoped<IDiagnosisService, DiagnosisService>();
-builder.Services.AddScoped<IObservationService, ObservationService>();
-builder.Services.AddScoped<ICarePlanService, CarePlanService>();
-builder.Services.AddScoped<ICareTaskService, CareTaskService>();
-builder.Services.AddScoped<IAllergyService, AllergyService>();
-builder.Services.AddScoped<IConditionService, ConditionService>();
-builder.Services.AddScoped<IInsurancePayerService, InsurancePayerService>();
-builder.Services.AddScoped<IInsurancePlanService, InsurancePlanService>();
-builder.Services.AddScoped<ICoverageService, CoverageService>();
-builder.Services.AddScoped<IClaimService, ClaimService>();
-builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
-builder.Services.AddScoped<IInvoiceService, InvoiceService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
-builder.Services.AddScoped<IMedicalDeviceService, MedicalDeviceService>();
-builder.Services.AddScoped<ISoftwareUpdateService, SoftwareUpdateService>();
-builder.Services.AddScoped<IMedicalSupplierService, MedicalSupplierService>();
-builder.Services.AddScoped<IInventoryItemService, InventoryItemService>();
+    builder.Services.AddScoped<IHealthSystemService, HealthSystemService>();
+    builder.Services.AddScoped<IFacilityService, FacilityService>();
+    builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+    builder.Services.AddScoped<ICareTeamService, CareTeamService>();
+    builder.Services.AddScoped<IClinicianService, ClinicianService>();
+    builder.Services.AddScoped<IPatientService, PatientService>();
+    builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+    builder.Services.AddScoped<IEncounterService, EncounterService>();
+    builder.Services.AddScoped<IAdmissionService, AdmissionService>();
+    builder.Services.AddScoped<IDischargeService, DischargeService>();
+    builder.Services.AddScoped<IClinicalOrderService, ClinicalOrderService>();
+    builder.Services.AddScoped<IMedicationOrderService, MedicationOrderService>();
+    builder.Services.AddScoped<ILaboratoryService, LaboratoryService>();
+    builder.Services.AddScoped<ILaboratoryOrderService, LaboratoryOrderService>();
+    builder.Services.AddScoped<ILabResultService, LabResultService>();
+    builder.Services.AddScoped<IImagingCenterService, ImagingCenterService>();
+    builder.Services.AddScoped<IImagingOrderService, ImagingOrderService>();
+    builder.Services.AddScoped<IImagingReportService, ImagingReportService>();
+    builder.Services.AddScoped<IProcedureOrderService, ProcedureOrderService>();
+    builder.Services.AddScoped<IProcedureService, ProcedureService>();
+    builder.Services.AddScoped<IPharmacyService, PharmacyService>();
+    builder.Services.AddScoped<IMedicationDispenseService, MedicationDispenseService>();
+    builder.Services.AddScoped<IDiagnosisService, DiagnosisService>();
+    builder.Services.AddScoped<IObservationService, ObservationService>();
+    builder.Services.AddScoped<ICarePlanService, CarePlanService>();
+    builder.Services.AddScoped<ICareTaskService, CareTaskService>();
+    builder.Services.AddScoped<IAllergyService, AllergyService>();
+    builder.Services.AddScoped<IConditionService, ConditionService>();
+    builder.Services.AddScoped<IInsurancePayerService, InsurancePayerService>();
+    builder.Services.AddScoped<IInsurancePlanService, InsurancePlanService>();
+    builder.Services.AddScoped<ICoverageService, CoverageService>();
+    builder.Services.AddScoped<IClaimService, ClaimService>();
+    builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
+    builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+    builder.Services.AddScoped<IPaymentService, PaymentService>();
+    builder.Services.AddScoped<IMedicalDeviceService, MedicalDeviceService>();
+    builder.Services.AddScoped<ISoftwareUpdateService, SoftwareUpdateService>();
+    builder.Services.AddScoped<IMedicalSupplierService, MedicalSupplierService>();
+    builder.Services.AddScoped<IInventoryItemService, InventoryItemService>();
+
+// apply the service resolver
+builder.Services.AddScoped<IServiceResolver, ServiceResolver>();
+
+builder.Services.AddSingleton<ApplicationTelemetry>();
+
+builder.Services
+    .AddOpenTelemetry()
+    .WithMetrics(metrics =>
+    {
+        metrics.AddMeter("Harbormaster.Application");
+
+        metrics.AddPrometheusExporter();
+    });
 
 var app = builder.Build();
+
+app.MapPrometheusScrapingEndpoint();
+
 
 // Health endpoint
 app.MapHealthChecks("/health");
@@ -222,45 +239,45 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
-app.MapHealthSystemEndpoints();
-app.MapFacilityEndpoints();
-app.MapDepartmentEndpoints();
-app.MapCareTeamEndpoints();
-app.MapClinicianEndpoints();
-app.MapPatientEndpoints();
-app.MapAppointmentEndpoints();
-app.MapEncounterEndpoints();
-app.MapAdmissionEndpoints();
-app.MapDischargeEndpoints();
-app.MapClinicalOrderEndpoints();
-app.MapMedicationOrderEndpoints();
-app.MapLaboratoryEndpoints();
-app.MapLaboratoryOrderEndpoints();
-app.MapLabResultEndpoints();
-app.MapImagingCenterEndpoints();
-app.MapImagingOrderEndpoints();
-app.MapImagingReportEndpoints();
-app.MapProcedureOrderEndpoints();
-app.MapProcedureEndpoints();
-app.MapPharmacyEndpoints();
-app.MapMedicationDispenseEndpoints();
-app.MapDiagnosisEndpoints();
-app.MapObservationEndpoints();
-app.MapCarePlanEndpoints();
-app.MapCareTaskEndpoints();
-app.MapAllergyEndpoints();
-app.MapConditionEndpoints();
-app.MapInsurancePayerEndpoints();
-app.MapInsurancePlanEndpoints();
-app.MapCoverageEndpoints();
-app.MapClaimEndpoints();
-app.MapAuthorizationEndpoints();
-app.MapInvoiceEndpoints();
-app.MapPaymentEndpoints();
-app.MapMedicalDeviceEndpoints();
-app.MapSoftwareUpdateEndpoints();
-app.MapMedicalSupplierEndpoints();
-app.MapInventoryItemEndpoints();
+    app.MapHealthSystemEndpoints();
+    app.MapFacilityEndpoints();
+    app.MapDepartmentEndpoints();
+    app.MapCareTeamEndpoints();
+    app.MapClinicianEndpoints();
+    app.MapPatientEndpoints();
+    app.MapAppointmentEndpoints();
+    app.MapEncounterEndpoints();
+    app.MapAdmissionEndpoints();
+    app.MapDischargeEndpoints();
+    app.MapClinicalOrderEndpoints();
+    app.MapMedicationOrderEndpoints();
+    app.MapLaboratoryEndpoints();
+    app.MapLaboratoryOrderEndpoints();
+    app.MapLabResultEndpoints();
+    app.MapImagingCenterEndpoints();
+    app.MapImagingOrderEndpoints();
+    app.MapImagingReportEndpoints();
+    app.MapProcedureOrderEndpoints();
+    app.MapProcedureEndpoints();
+    app.MapPharmacyEndpoints();
+    app.MapMedicationDispenseEndpoints();
+    app.MapDiagnosisEndpoints();
+    app.MapObservationEndpoints();
+    app.MapCarePlanEndpoints();
+    app.MapCareTaskEndpoints();
+    app.MapAllergyEndpoints();
+    app.MapConditionEndpoints();
+    app.MapInsurancePayerEndpoints();
+    app.MapInsurancePlanEndpoints();
+    app.MapCoverageEndpoints();
+    app.MapClaimEndpoints();
+    app.MapAuthorizationEndpoints();
+    app.MapInvoiceEndpoints();
+    app.MapPaymentEndpoints();
+    app.MapMedicalDeviceEndpoints();
+    app.MapSoftwareUpdateEndpoints();
+    app.MapMedicalSupplierEndpoints();
+    app.MapInventoryItemEndpoints();
 
 app.Run();
 

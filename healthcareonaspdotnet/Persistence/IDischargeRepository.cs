@@ -1,4 +1,5 @@
 using healthcareonaspdotnet.Domain;
+using healthcareonaspdotnet.Contracts;
 
 namespace healthcareonaspdotnet.Persistence;
 
@@ -9,4 +10,6 @@ public interface IDischargeRepository
     Task AddAsync(Discharge discharge, CancellationToken cancellationToken);
     Task UpdateAsync(Discharge discharge, CancellationToken cancellationToken);
     Task DeleteAsync(Discharge discharge, CancellationToken cancellationToken);
+
+
 }

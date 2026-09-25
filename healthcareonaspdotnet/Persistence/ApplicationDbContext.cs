@@ -11,45 +11,45 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-public DbSet<HealthSystem> HealthSystems => Set<HealthSystem>();
-public DbSet<Facility> Facilitys => Set<Facility>();
-public DbSet<Department> Departments => Set<Department>();
-public DbSet<CareTeam> CareTeams => Set<CareTeam>();
-public DbSet<Clinician> Clinicians => Set<Clinician>();
-public DbSet<Patient> Patients => Set<Patient>();
-public DbSet<Appointment> Appointments => Set<Appointment>();
-public DbSet<Encounter> Encounters => Set<Encounter>();
-public DbSet<Admission> Admissions => Set<Admission>();
-public DbSet<Discharge> Discharges => Set<Discharge>();
-public DbSet<ClinicalOrder> ClinicalOrders => Set<ClinicalOrder>();
-public DbSet<MedicationOrder> MedicationOrders => Set<MedicationOrder>();
-public DbSet<Laboratory> Laboratorys => Set<Laboratory>();
-public DbSet<LaboratoryOrder> LaboratoryOrders => Set<LaboratoryOrder>();
-public DbSet<LabResult> LabResults => Set<LabResult>();
-public DbSet<ImagingCenter> ImagingCenters => Set<ImagingCenter>();
-public DbSet<ImagingOrder> ImagingOrders => Set<ImagingOrder>();
-public DbSet<ImagingReport> ImagingReports => Set<ImagingReport>();
-public DbSet<ProcedureOrder> ProcedureOrders => Set<ProcedureOrder>();
-public DbSet<Procedure> Procedures => Set<Procedure>();
-public DbSet<Pharmacy> Pharmacys => Set<Pharmacy>();
-public DbSet<MedicationDispense> MedicationDispenses => Set<MedicationDispense>();
-public DbSet<Diagnosis> Diagnosiss => Set<Diagnosis>();
-public DbSet<Observation> Observations => Set<Observation>();
-public DbSet<CarePlan> CarePlans => Set<CarePlan>();
-public DbSet<CareTask> CareTasks => Set<CareTask>();
-public DbSet<Allergy> Allergys => Set<Allergy>();
-public DbSet<Condition> Conditions => Set<Condition>();
-public DbSet<InsurancePayer> InsurancePayers => Set<InsurancePayer>();
-public DbSet<InsurancePlan> InsurancePlans => Set<InsurancePlan>();
-public DbSet<Coverage> Coverages => Set<Coverage>();
-public DbSet<Claim> Claims => Set<Claim>();
-public DbSet<Authorization> Authorizations => Set<Authorization>();
-public DbSet<Invoice> Invoices => Set<Invoice>();
-public DbSet<Payment> Payments => Set<Payment>();
-public DbSet<MedicalDevice> MedicalDevices => Set<MedicalDevice>();
-public DbSet<SoftwareUpdate> SoftwareUpdates => Set<SoftwareUpdate>();
-public DbSet<MedicalSupplier> MedicalSuppliers => Set<MedicalSupplier>();
-public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
+    public DbSet<HealthSystem> HealthSystems => Set<HealthSystem>();
+    public DbSet<Facility> Facilitys => Set<Facility>();
+    public DbSet<Department> Departments => Set<Department>();
+    public DbSet<CareTeam> CareTeams => Set<CareTeam>();
+    public DbSet<Clinician> Clinicians => Set<Clinician>();
+    public DbSet<Patient> Patients => Set<Patient>();
+    public DbSet<Appointment> Appointments => Set<Appointment>();
+    public DbSet<Encounter> Encounters => Set<Encounter>();
+    public DbSet<Admission> Admissions => Set<Admission>();
+    public DbSet<Discharge> Discharges => Set<Discharge>();
+    public DbSet<ClinicalOrder> ClinicalOrders => Set<ClinicalOrder>();
+    public DbSet<MedicationOrder> MedicationOrders => Set<MedicationOrder>();
+    public DbSet<Laboratory> Laboratorys => Set<Laboratory>();
+    public DbSet<LaboratoryOrder> LaboratoryOrders => Set<LaboratoryOrder>();
+    public DbSet<LabResult> LabResults => Set<LabResult>();
+    public DbSet<ImagingCenter> ImagingCenters => Set<ImagingCenter>();
+    public DbSet<ImagingOrder> ImagingOrders => Set<ImagingOrder>();
+    public DbSet<ImagingReport> ImagingReports => Set<ImagingReport>();
+    public DbSet<ProcedureOrder> ProcedureOrders => Set<ProcedureOrder>();
+    public DbSet<Procedure> Procedures => Set<Procedure>();
+    public DbSet<Pharmacy> Pharmacys => Set<Pharmacy>();
+    public DbSet<MedicationDispense> MedicationDispenses => Set<MedicationDispense>();
+    public DbSet<Diagnosis> Diagnosiss => Set<Diagnosis>();
+    public DbSet<Observation> Observations => Set<Observation>();
+    public DbSet<CarePlan> CarePlans => Set<CarePlan>();
+    public DbSet<CareTask> CareTasks => Set<CareTask>();
+    public DbSet<Allergy> Allergys => Set<Allergy>();
+    public DbSet<Condition> Conditions => Set<Condition>();
+    public DbSet<InsurancePayer> InsurancePayers => Set<InsurancePayer>();
+    public DbSet<InsurancePlan> InsurancePlans => Set<InsurancePlan>();
+    public DbSet<Coverage> Coverages => Set<Coverage>();
+    public DbSet<Claim> Claims => Set<Claim>();
+    public DbSet<Authorization> Authorizations => Set<Authorization>();
+    public DbSet<Invoice> Invoices => Set<Invoice>();
+    public DbSet<Payment> Payments => Set<Payment>();
+    public DbSet<MedicalDevice> MedicalDevices => Set<MedicalDevice>();
+    public DbSet<SoftwareUpdate> SoftwareUpdates => Set<SoftwareUpdate>();
+    public DbSet<MedicalSupplier> MedicalSuppliers => Set<MedicalSupplier>();
+    public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -60,13 +60,13 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<Facility>()
             .HasOne<HealthSystem>()
             .WithMany(parent => parent.Facilities)
-            .HasForeignKey("Facilities_Id");
+            .HasForeignKey("HealthSystem_Id");
 
         // HealthSystem has one or more Suppliers of type MedicalSupplier
         modelBuilder.Entity<MedicalSupplier>()
             .HasOne<HealthSystem>()
             .WithMany(parent => parent.Suppliers)
-            .HasForeignKey("Suppliers_Id");
+            .HasForeignKey("HealthSystem_Id");
 
         // Facility has one HealthSystem of type HealthSystem
         modelBuilder.Entity<Facility>()
@@ -79,37 +79,37 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<Department>()
             .HasOne<Facility>()
             .WithMany(parent => parent.Departments)
-            .HasForeignKey("Departments_Id");
+            .HasForeignKey("Facility_Id");
 
         // Facility has one or more CareTeams of type CareTeam
         modelBuilder.Entity<CareTeam>()
             .HasOne<Facility>()
             .WithMany(parent => parent.CareTeams)
-            .HasForeignKey("CareTeams_Id");
+            .HasForeignKey("Facility_Id");
 
         // Facility has one or more Laboratories of type Laboratory
         modelBuilder.Entity<Laboratory>()
             .HasOne<Facility>()
             .WithMany(parent => parent.Laboratories)
-            .HasForeignKey("Laboratories_Id");
+            .HasForeignKey("Facility_Id");
 
         // Facility has one or more ImagingCenters of type ImagingCenter
         modelBuilder.Entity<ImagingCenter>()
             .HasOne<Facility>()
             .WithMany(parent => parent.ImagingCenters)
-            .HasForeignKey("ImagingCenters_Id");
+            .HasForeignKey("Facility_Id");
 
         // Facility has one or more Pharmacies of type Pharmacy
         modelBuilder.Entity<Pharmacy>()
             .HasOne<Facility>()
             .WithMany(parent => parent.Pharmacies)
-            .HasForeignKey("Pharmacies_Id");
+            .HasForeignKey("Facility_Id");
 
         // Facility has one or more InventoryItems of type InventoryItem
         modelBuilder.Entity<InventoryItem>()
             .HasOne<Facility>()
             .WithMany(parent => parent.InventoryItems)
-            .HasForeignKey("InventoryItems_Id");
+            .HasForeignKey("Facility_Id");
 
         // Department has one Facility of type Facility
         modelBuilder.Entity<Department>()
@@ -122,7 +122,7 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<CareTeam>()
             .HasOne<Department>()
             .WithMany(parent => parent.CareTeams)
-            .HasForeignKey("CareTeams_Id");
+            .HasForeignKey("Department_Id");
 
         // CareTeam has one Department of type Department
         modelBuilder.Entity<CareTeam>()
@@ -135,117 +135,117 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<Clinician>()
             .HasOne<CareTeam>()
             .WithMany(parent => parent.Clinicians)
-            .HasForeignKey("Clinicians_Id");
+            .HasForeignKey("CareTeam_Id");
 
         // CareTeam has one or more Patients of type Patient
         modelBuilder.Entity<Patient>()
             .HasOne<CareTeam>()
             .WithMany(parent => parent.Patients)
-            .HasForeignKey("Patients_Id");
+            .HasForeignKey("CareTeam_Id");
 
 
         // Clinician has one or more CareTeams of type CareTeam
         modelBuilder.Entity<CareTeam>()
             .HasOne<Clinician>()
             .WithMany(parent => parent.CareTeams)
-            .HasForeignKey("CareTeams_Id");
+            .HasForeignKey("Clinician_Id");
 
         // Clinician has one or more Appointments of type Appointment
         modelBuilder.Entity<Appointment>()
             .HasOne<Clinician>()
             .WithMany(parent => parent.Appointments)
-            .HasForeignKey("Appointments_Id");
+            .HasForeignKey("Clinician_Id");
 
         // Clinician has one or more Encounters of type Encounter
         modelBuilder.Entity<Encounter>()
             .HasOne<Clinician>()
             .WithMany(parent => parent.Encounters)
-            .HasForeignKey("Encounters_Id");
+            .HasForeignKey("Clinician_Id");
 
         // Clinician has one or more Procedures of type Procedure
         modelBuilder.Entity<Procedure>()
             .HasOne<Clinician>()
             .WithMany(parent => parent.Procedures)
-            .HasForeignKey("Procedures_Id");
+            .HasForeignKey("Clinician_Id");
 
         // Clinician has one or more ImagingReports of type ImagingReport
         modelBuilder.Entity<ImagingReport>()
             .HasOne<Clinician>()
             .WithMany(parent => parent.ImagingReports)
-            .HasForeignKey("ImagingReports_Id");
+            .HasForeignKey("Clinician_Id");
 
 
         // Patient has one or more Appointments of type Appointment
         modelBuilder.Entity<Appointment>()
             .HasOne<Patient>()
             .WithMany(parent => parent.Appointments)
-            .HasForeignKey("Appointments_Id");
+            .HasForeignKey("Patient_Id");
 
         // Patient has one or more Encounters of type Encounter
         modelBuilder.Entity<Encounter>()
             .HasOne<Patient>()
             .WithMany(parent => parent.Encounters)
-            .HasForeignKey("Encounters_Id");
+            .HasForeignKey("Patient_Id");
 
         // Patient has one or more CarePlans of type CarePlan
         modelBuilder.Entity<CarePlan>()
             .HasOne<Patient>()
             .WithMany(parent => parent.CarePlans)
-            .HasForeignKey("CarePlans_Id");
+            .HasForeignKey("Patient_Id");
 
         // Patient has one or more Allergies of type Allergy
         modelBuilder.Entity<Allergy>()
             .HasOne<Patient>()
             .WithMany(parent => parent.Allergies)
-            .HasForeignKey("Allergies_Id");
+            .HasForeignKey("Patient_Id");
 
         // Patient has one or more Conditions of type Condition
         modelBuilder.Entity<Condition>()
             .HasOne<Patient>()
             .WithMany(parent => parent.Conditions)
-            .HasForeignKey("Conditions_Id");
+            .HasForeignKey("Patient_Id");
 
         // Patient has one or more MedicationOrders of type MedicationOrder
         modelBuilder.Entity<MedicationOrder>()
             .HasOne<Patient>()
             .WithMany(parent => parent.MedicationOrders)
-            .HasForeignKey("MedicationOrders_Id");
+            .HasForeignKey("Patient_Id");
 
         // Patient has one or more LabOrders of type LaboratoryOrder
         modelBuilder.Entity<LaboratoryOrder>()
             .HasOne<Patient>()
             .WithMany(parent => parent.LabOrders)
-            .HasForeignKey("LabOrders_Id");
+            .HasForeignKey("Patient_Id");
 
         // Patient has one or more ImagingOrders of type ImagingOrder
         modelBuilder.Entity<ImagingOrder>()
             .HasOne<Patient>()
             .WithMany(parent => parent.ImagingOrders)
-            .HasForeignKey("ImagingOrders_Id");
+            .HasForeignKey("Patient_Id");
 
         // Patient has one or more Coverages of type Coverage
         modelBuilder.Entity<Coverage>()
             .HasOne<Patient>()
             .WithMany(parent => parent.Coverages)
-            .HasForeignKey("Coverages_Id");
+            .HasForeignKey("Patient_Id");
 
         // Patient has one or more Claims of type Claim
         modelBuilder.Entity<Claim>()
             .HasOne<Patient>()
             .WithMany(parent => parent.Claims)
-            .HasForeignKey("Claims_Id");
+            .HasForeignKey("Patient_Id");
 
         // Patient has one or more Devices of type MedicalDevice
         modelBuilder.Entity<MedicalDevice>()
             .HasOne<Patient>()
             .WithMany(parent => parent.Devices)
-            .HasForeignKey("Devices_Id");
+            .HasForeignKey("Patient_Id");
 
         // Patient has one or more Observations of type Observation
         modelBuilder.Entity<Observation>()
             .HasOne<Patient>()
             .WithMany(parent => parent.Observations)
-            .HasForeignKey("Observations_Id");
+            .HasForeignKey("Patient_Id");
 
         // Appointment has one Patient of type Patient
         modelBuilder.Entity<Appointment>()
@@ -313,25 +313,25 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<Diagnosis>()
             .HasOne<Encounter>()
             .WithMany(parent => parent.Diagnoses)
-            .HasForeignKey("Diagnoses_Id");
+            .HasForeignKey("Encounter_Id");
 
         // Encounter has one or more Procedures of type Procedure
         modelBuilder.Entity<Procedure>()
             .HasOne<Encounter>()
             .WithMany(parent => parent.Procedures)
-            .HasForeignKey("Procedures_Id");
+            .HasForeignKey("Encounter_Id");
 
         // Encounter has one or more Observations of type Observation
         modelBuilder.Entity<Observation>()
             .HasOne<Encounter>()
             .WithMany(parent => parent.Observations)
-            .HasForeignKey("Observations_Id");
+            .HasForeignKey("Encounter_Id");
 
         // Encounter has one or more Orders of type ClinicalOrder
         modelBuilder.Entity<ClinicalOrder>()
             .HasOne<Encounter>()
             .WithMany(parent => parent.Orders)
-            .HasForeignKey("Orders_Id");
+            .HasForeignKey("Encounter_Id");
 
         // Admission has one Encounter of type Encounter
         modelBuilder.Entity<Admission>()
@@ -376,31 +376,31 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<MedicationOrder>()
             .HasOne<ClinicalOrder>()
             .WithMany(parent => parent.MedicationOrders)
-            .HasForeignKey("MedicationOrders_Id");
+            .HasForeignKey("ClinicalOrder_Id");
 
         // ClinicalOrder has one or more LaboratoryOrders of type LaboratoryOrder
         modelBuilder.Entity<LaboratoryOrder>()
             .HasOne<ClinicalOrder>()
             .WithMany(parent => parent.LaboratoryOrders)
-            .HasForeignKey("LaboratoryOrders_Id");
+            .HasForeignKey("ClinicalOrder_Id");
 
         // ClinicalOrder has one or more ImagingOrders of type ImagingOrder
         modelBuilder.Entity<ImagingOrder>()
             .HasOne<ClinicalOrder>()
             .WithMany(parent => parent.ImagingOrders)
-            .HasForeignKey("ImagingOrders_Id");
+            .HasForeignKey("ClinicalOrder_Id");
 
         // ClinicalOrder has one or more ProcedureOrders of type ProcedureOrder
         modelBuilder.Entity<ProcedureOrder>()
             .HasOne<ClinicalOrder>()
             .WithMany(parent => parent.ProcedureOrders)
-            .HasForeignKey("ProcedureOrders_Id");
+            .HasForeignKey("ClinicalOrder_Id");
 
         // ClinicalOrder has one or more Authorizations of type Authorization
         modelBuilder.Entity<Authorization>()
             .HasOne<ClinicalOrder>()
             .WithMany(parent => parent.Authorizations)
-            .HasForeignKey("Authorizations_Id");
+            .HasForeignKey("ClinicalOrder_Id");
 
         // MedicationOrder has one Order of type ClinicalOrder
         modelBuilder.Entity<MedicationOrder>()
@@ -419,7 +419,7 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<MedicationDispense>()
             .HasOne<MedicationOrder>()
             .WithMany(parent => parent.Dispenses)
-            .HasForeignKey("Dispenses_Id");
+            .HasForeignKey("MedicationOrder_Id");
 
         // Laboratory has one Facility of type Facility
         modelBuilder.Entity<Laboratory>()
@@ -432,13 +432,13 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<LaboratoryOrder>()
             .HasOne<Laboratory>()
             .WithMany(parent => parent.LaboratoryOrders)
-            .HasForeignKey("LaboratoryOrders_Id");
+            .HasForeignKey("Laboratory_Id");
 
         // Laboratory has one or more LabResults of type LabResult
         modelBuilder.Entity<LabResult>()
             .HasOne<Laboratory>()
             .WithMany(parent => parent.LabResults)
-            .HasForeignKey("LabResults_Id");
+            .HasForeignKey("Laboratory_Id");
 
         // LaboratoryOrder has one Order of type ClinicalOrder
         modelBuilder.Entity<LaboratoryOrder>()
@@ -457,7 +457,7 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<LabResult>()
             .HasOne<LaboratoryOrder>()
             .WithMany(parent => parent.Results)
-            .HasForeignKey("Results_Id");
+            .HasForeignKey("LaboratoryOrder_Id");
 
         // LabResult has one LaboratoryOrder of type LaboratoryOrder
         modelBuilder.Entity<LabResult>()
@@ -476,7 +476,7 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<Observation>()
             .HasOne<LabResult>()
             .WithMany(parent => parent.Observations)
-            .HasForeignKey("Observations_Id");
+            .HasForeignKey("LabResult_Id");
 
         // ImagingCenter has one Facility of type Facility
         modelBuilder.Entity<ImagingCenter>()
@@ -489,13 +489,13 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<ImagingOrder>()
             .HasOne<ImagingCenter>()
             .WithMany(parent => parent.ImagingOrders)
-            .HasForeignKey("ImagingOrders_Id");
+            .HasForeignKey("ImagingCenter_Id");
 
         // ImagingCenter has one or more ImagingReports of type ImagingReport
         modelBuilder.Entity<ImagingReport>()
             .HasOne<ImagingCenter>()
             .WithMany(parent => parent.ImagingReports)
-            .HasForeignKey("ImagingReports_Id");
+            .HasForeignKey("ImagingCenter_Id");
 
         // ImagingOrder has one Order of type ClinicalOrder
         modelBuilder.Entity<ImagingOrder>()
@@ -514,7 +514,7 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<ImagingReport>()
             .HasOne<ImagingOrder>()
             .WithMany(parent => parent.Reports)
-            .HasForeignKey("Reports_Id");
+            .HasForeignKey("ImagingOrder_Id");
 
         // ImagingReport has one ImagingOrder of type ImagingOrder
         modelBuilder.Entity<ImagingReport>()
@@ -590,13 +590,13 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<MedicationDispense>()
             .HasOne<Pharmacy>()
             .WithMany(parent => parent.MedicationDispenses)
-            .HasForeignKey("MedicationDispenses_Id");
+            .HasForeignKey("Pharmacy_Id");
 
         // Pharmacy has one or more MedicationOrders of type MedicationOrder
         modelBuilder.Entity<MedicationOrder>()
             .HasOne<Pharmacy>()
             .WithMany(parent => parent.MedicationOrders)
-            .HasForeignKey("MedicationOrders_Id");
+            .HasForeignKey("Pharmacy_Id");
 
         // MedicationDispense has one MedicationOrder of type MedicationOrder
         modelBuilder.Entity<MedicationDispense>()
@@ -672,13 +672,13 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<Encounter>()
             .HasOne<CarePlan>()
             .WithMany(parent => parent.Encounters)
-            .HasForeignKey("Encounters_Id");
+            .HasForeignKey("CarePlan_Id");
 
         // CarePlan has one or more Tasks of type CareTask
         modelBuilder.Entity<CareTask>()
             .HasOne<CarePlan>()
             .WithMany(parent => parent.Tasks)
-            .HasForeignKey("Tasks_Id");
+            .HasForeignKey("CarePlan_Id");
 
         // CareTask has one CarePlan of type CarePlan
         modelBuilder.Entity<CareTask>()
@@ -718,13 +718,13 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<InsurancePlan>()
             .HasOne<InsurancePayer>()
             .WithMany(parent => parent.Plans)
-            .HasForeignKey("Plans_Id");
+            .HasForeignKey("InsurancePayer_Id");
 
         // InsurancePayer has one or more Claims of type Claim
         modelBuilder.Entity<Claim>()
             .HasOne<InsurancePayer>()
             .WithMany(parent => parent.Claims)
-            .HasForeignKey("Claims_Id");
+            .HasForeignKey("InsurancePayer_Id");
 
         // InsurancePlan has one Payer of type InsurancePayer
         modelBuilder.Entity<InsurancePlan>()
@@ -737,7 +737,7 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<Coverage>()
             .HasOne<InsurancePlan>()
             .WithMany(parent => parent.Coverages)
-            .HasForeignKey("Coverages_Id");
+            .HasForeignKey("InsurancePlan_Id");
 
         // Coverage has one Patient of type Patient
         modelBuilder.Entity<Coverage>()
@@ -756,13 +756,13 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<Claim>()
             .HasOne<Coverage>()
             .WithMany(parent => parent.Claims)
-            .HasForeignKey("Claims_Id");
+            .HasForeignKey("Coverage_Id");
 
         // Coverage has one or more Authorizations of type Authorization
         modelBuilder.Entity<Authorization>()
             .HasOne<Coverage>()
             .WithMany(parent => parent.Authorizations)
-            .HasForeignKey("Authorizations_Id");
+            .HasForeignKey("Coverage_Id");
 
         // Claim has one Patient of type Patient
         modelBuilder.Entity<Claim>()
@@ -793,7 +793,7 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<Invoice>()
             .HasOne<Claim>()
             .WithMany(parent => parent.Invoices)
-            .HasForeignKey("Invoices_Id");
+            .HasForeignKey("Claim_Id");
 
         // Authorization has one Coverage of type Coverage
         modelBuilder.Entity<Authorization>()
@@ -825,7 +825,7 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<Payment>()
             .HasOne<Invoice>()
             .WithMany(parent => parent.Payments)
-            .HasForeignKey("Payments_Id");
+            .HasForeignKey("Invoice_Id");
 
         // Payment has one Invoice of type Invoice
         modelBuilder.Entity<Payment>()
@@ -851,13 +851,13 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<Observation>()
             .HasOne<MedicalDevice>()
             .WithMany(parent => parent.Observations)
-            .HasForeignKey("Observations_Id");
+            .HasForeignKey("MedicalDevice_Id");
 
         // MedicalDevice has one or more SoftwareUpdates of type SoftwareUpdate
         modelBuilder.Entity<SoftwareUpdate>()
             .HasOne<MedicalDevice>()
             .WithMany(parent => parent.SoftwareUpdates)
-            .HasForeignKey("SoftwareUpdates_Id");
+            .HasForeignKey("MedicalDevice_Id");
 
         // SoftwareUpdate has one Device of type MedicalDevice
         modelBuilder.Entity<SoftwareUpdate>()
@@ -871,13 +871,13 @@ public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
         modelBuilder.Entity<Facility>()
             .HasOne<MedicalSupplier>()
             .WithMany(parent => parent.Facilities)
-            .HasForeignKey("Facilities_Id");
+            .HasForeignKey("MedicalSupplier_Id");
 
         // MedicalSupplier has one or more InventoryItems of type InventoryItem
         modelBuilder.Entity<InventoryItem>()
             .HasOne<MedicalSupplier>()
             .WithMany(parent => parent.InventoryItems)
-            .HasForeignKey("InventoryItems_Id");
+            .HasForeignKey("MedicalSupplier_Id");
 
         // InventoryItem has one Facility of type Facility
         modelBuilder.Entity<InventoryItem>()
